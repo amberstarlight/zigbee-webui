@@ -14,13 +14,13 @@ export const init = (options, bridgeInfoOnChange) => {
 
   if (!client.connected) {
     client.on('message', (topic, payload) => {
+      const messageContent = JSON.parse(payload.toString());
       switch (topic) {
         case 'zigbee2mqtt/bridge/info':
-          if (bridgeInfoOnChange)
-            bridgeInfoOnChange(JSON.parse(payload.toString()));
+          if (bridgeInfoOnChange) bridgeInfoOnChange(messageContent);
           break;
         case 'zigbee2mqtt/bridge/devices':
-          devices = JSON.parse(payload.toString());
+          devices = messageContent;
           break;
         default:
           break;
@@ -70,13 +70,13 @@ export const getDeviceSettings = (deviceFriendlyName, properties) => {
 
     oneTimeTopicCallbacks[topic].push(callbackFunction);
 
-    client.publish(`${topic}/get`, JSON.stringify(properties));
+    sendMqttMessage(`${topic}/get`, properties);
   });
 };
 
 export const setDeviceSettings = (deviceFriendlyName, settings) => {
   const topic = `zigbee2mqtt/${deviceFriendlyName}`;
-  client.publish(`${topic}/set`, JSON.stringify(settings));
+  sendMqttMessage(`${topic}/set`, settings);
 };
 
 export const setDeviceFriendlyName = (deviceFriendlyName, newFriendlyName) => {
@@ -85,9 +85,32 @@ export const setDeviceFriendlyName = (deviceFriendlyName, newFriendlyName) => {
     from: deviceFriendlyName,
     to: newFriendlyName,
   };
-  client.publish(topic, JSON.stringify(message));
+
+  sendMqttMessage(topic, message);
 };
 
 export const sendMqttMessage = (topic, message) => {
   client.publish(topic, JSON.stringify(message));
+};
+
+export const checkForDeviceUpdate = (deviceFriendlyName) => {
+  return new Promise((resolve) => {
+    const deviceTopic = `zigbee2mqtt/${deviceFriendlyName}`;
+    const topic = 'zigbee2mqtt/bridge/request/device/ota_update/check';
+    const message = {
+      id: deviceFriendlyName,
+    };
+
+    client.subscribe(deviceTopic);
+
+    if (!oneTimeTopicCallbacks[deviceTopic])
+      oneTimeTopicCallbacks[deviceTopic] = [];
+    const callbackFunction = (payload) => {
+      resolve(JSON.parse(payload.toString()));
+    };
+
+    oneTimeTopicCallbacks[deviceTopic].push(callbackFunction);
+
+    sendMqttMessage(topic, message);
+  });
 };

@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import {
+  checkForDeviceUpdate,
   getDeviceSettings,
   setDeviceFriendlyName,
 } from '../../services/mqttService';
 import { deviceSettingsGenerator } from './generator';
 import EditableText from '../EditableText/EditableText';
 import { deviceDescription } from '../../utils/deviceUtilities';
+import Button from '../Button/Button';
 
 function DeviceSettings(props) {
   const [deviceSettingsState, setDeviceSettingsState] = useState();
@@ -62,6 +64,21 @@ function DeviceSettings(props) {
           deviceSettingsState,
           setDeviceSettingsState
         )}
+      </div>
+
+      <div>
+        <Button
+          text="Check for Update"
+          onClick={() =>
+            checkForDeviceUpdate(props.device.friendly_name).then((res) => {
+              if (res.update_available) {
+                console.log('Update available!');
+              } else {
+                console.log('No update available.');
+              }
+            })
+          }
+        ></Button>
       </div>
     </>
   );
