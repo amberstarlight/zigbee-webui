@@ -5,6 +5,7 @@ import {
   mqttStateToBoolean,
   rgbToHex,
   rgbToHSL,
+  stringTidy,
   updateDeviceState,
 } from '../../utils/deviceUtilities';
 import { numericTransformer } from '../../utils/transformers';
@@ -25,6 +26,7 @@ export const deviceSettingsGenerator = (
       case 'binary':
         settingComponentsArray.push(
           <Toggle
+            label={stringTidy(feature.name)}
             key={feature.name}
             checked={mqttStateToBoolean(deviceSettingsState[feature.name])}
             onChange={(event) => {

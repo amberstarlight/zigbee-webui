@@ -7,7 +7,14 @@ import {
   updateDeviceState,
 } from './deviceUtilities';
 
+import styled from 'styled-components';
+
 const percentage = (value, maxValue) => Math.floor((value / maxValue) * 100);
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+`;
 
 export const numericTransformer = (
   feature,
@@ -67,7 +74,7 @@ export const numericTransformer = (
     componentsArray.push(
       <div key={`preset-list-${feature.name}`}>
         <p>Presets for {stringTidy(feature.name)}:</p>
-        {presets}
+        <Grid>{presets}</Grid>
       </div>
     );
   }

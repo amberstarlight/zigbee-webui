@@ -30,7 +30,7 @@ export const deviceDescription = (deviceDefinition) => {
   if (deviceDefinition)
     return `${deviceDefinition.vendor} ${deviceDefinition.description}`;
 
-  return 'Unknown';
+  return 'Unknown device';
 };
 
 export const hexToRGB = (hexValue) => {

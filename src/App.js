@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import * as mqttService from './services/mqttService';
-import { Link, Route } from 'wouter';
+import { Link, Route, useLocation } from 'wouter';
 
 import styled, { ThemeProvider } from 'styled-components';
-import { GlobalStyles } from './components/GlobalStyles/globalStyles';
+import {
+  GlobalStyles,
+  lightTheme,
+  darkTheme,
+} from './components/GlobalStyles/globalStyles';
 import { useDarkMode } from './components/UseDarkMode/useDarkMode';
-import { StyledText, lightTheme, darkTheme } from './utils/theme';
 
 import Devices from './pages/Devices/Devices';
 import Settings from './pages/Settings/Settings';
@@ -19,19 +22,21 @@ const options = {
 
 const Wrapper = styled.div`
   padding: 2em;
+  height: 100%;
 `;
 
 const NavBar = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1em;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 1em;
+  margin-bottom: 2em;
 `;
 
 function App() {
   const [devices, setDevices] = useState();
   const [bridgeState, setBridgeState] = useState();
   const [theme] = useDarkMode();
+  const [location] = useLocation();
 
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
 
@@ -56,7 +61,8 @@ function App() {
           </Link>
         </NavBar>
 
-        {/* routes */}
+        <h1>{decodeURI(location)}</h1>
+
         <Route path={'/devices'}>
           <Devices devices={devices} />
         </Route>
@@ -73,10 +79,12 @@ function App() {
 
             if (!device)
               return (
-                <StyledText>
-                  Device <b>{params.friendlyName}</b> does not exist on this
-                  network.
-                </StyledText>
+                <>
+                  <p>That device does not exist on the network.</p>
+                  <Link href={'/devices'}>
+                    <Button text={'Go Back'} />
+                  </Link>
+                </>
               );
 
             return <DeviceSettings device={device} />;

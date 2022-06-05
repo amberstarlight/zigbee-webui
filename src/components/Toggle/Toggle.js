@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+const SwitchContainer = styled.div`
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  justify-items: start;
+
+  grid-template-columns: 1fr 8fr 1fr;
+  column-gap: 1em;
+`;
+
 const Switch = styled.label`
   position: relative;
   display: inline-block;
@@ -47,14 +57,17 @@ const Slider = styled.span`
 
 function Toggle(props) {
   return (
-    <Switch>
-      <input
-        type={'checkbox'}
-        checked={props.checked}
-        onChange={props.onChange}
-      />
-      <Slider></Slider>
-    </Switch>
+    <SwitchContainer>
+      {props.label}
+      <Switch>
+        <input
+          type={'checkbox'}
+          checked={props.checked}
+          onChange={props.onChange}
+        />
+        <Slider></Slider>
+      </Switch>
+    </SwitchContainer>
   );
 }
 

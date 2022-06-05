@@ -1,6 +1,5 @@
 import { deviceDescription } from '../../utils/deviceUtilities';
 import styled from 'styled-components';
-import { StyledText, StyledHeader } from '../../utils/theme';
 
 const emojiLookup = {
   light: '💡',
@@ -32,10 +31,10 @@ function DeviceCard(props) {
 
   return (
     <Card onClick={props.onClick}>
-      <StyledHeader>
+      <h2>
         {deviceEmoji} {props.device.friendly_name}
-      </StyledHeader>
-      <StyledText>{deviceDescription(deviceDefinition)}</StyledText>
+      </h2>
+      <p>{deviceDescription(deviceDefinition)}</p>
     </Card>
   );
 }

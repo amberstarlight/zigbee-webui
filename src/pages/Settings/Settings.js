@@ -1,4 +1,4 @@
-import * as mqttService from '../../services/mqttService';
+import { sendMqttMessage } from '../../services/mqttService';
 
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import Toggle from '../../components/Toggle/Toggle';
@@ -14,20 +14,19 @@ function Settings(props) {
     const permitJoin = props.bridgeState.permit_join;
 
     settingsContent = (
-      <>
+      <div>
         <h3>Device Pairing</h3>
         <Toggle
           key={'permitJoin'}
           checked={permitJoin}
           onChange={() => {
-            mqttService.sendMqttMessage(
-              'zigbee2mqtt/bridge/request/permit_join',
-              { value: !permitJoin }
-            );
+            sendMqttMessage('zigbee2mqtt/bridge/request/permit_join', {
+              value: !permitJoin,
+            });
           }}
         />
         <p>Devices can{permitJoin ? '' : 'not'} join the network.</p>
-      </>
+      </div>
     );
   }
 
@@ -35,3 +34,36 @@ function Settings(props) {
 }
 
 export default Settings;
+
+{
+  /* <h3>Devices</h3>
+<EditableText
+  text={deviceFriendlyNameState}
+  fontSize={'2em'}
+  onChange={(event) => {
+    const newFriendlyName = event.target.value;
+    setDeviceFriendlyNameState(newFriendlyName);
+  }}
+  onEditFinish={() => {
+    setDeviceFriendlyName(
+      props.device.friendly_name,
+      deviceFriendlyNameState
+    );
+  }}
+/>
+
+<div>
+  <Button
+    text="Check for Update"
+    onClick={() =>
+      checkForDeviceUpdate(props.device.friendly_name).then((res) => {
+        if (res.update_available) {
+          console.log('Update available!');
+        } else {
+          console.log('No update available.');
+        }
+      })
+    }
+  ></Button>
+</div> */
+}

@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
 const SliderContainer = styled.div`
-  display: flex;
+  display: grid;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  gap: 1em;
+  justify-items: center;
+
+  grid-template-columns: 1fr 8fr 1fr;
+  column-gap: 1em;
 `;
 
 const StyledSlider = styled.input.attrs((props) => ({
@@ -14,7 +17,7 @@ const StyledSlider = styled.input.attrs((props) => ({
   appearance: none;
   border: none;
   display: block;
-  width: 75%;
+  width: 100%;
   height: 1em;
   border-radius: 1em;
   background: ${({ theme }) => theme.shadow};
