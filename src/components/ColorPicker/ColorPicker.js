@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { SettingsGrid } from '../GlobalStyles/globalStyles';
 
 const Picker = styled.input`
   appearance: none;
   display: block;
-  width: 5em;
+  width: 100%;
   height: 5em;
   border: none;
   background: none;
@@ -12,11 +13,11 @@ const Picker = styled.input`
 function ColorPicker(props) {
   return (
     <>
-      <label>
+      <SettingsGrid type={'device'}>
         {props.label}
         <Picker type="color" value={props.value} onChange={props.onChange} />
-      </label>
-      <p>{props.value}</p>
+        <output>{props.value}</output>
+      </SettingsGrid>
     </>
   );
 }

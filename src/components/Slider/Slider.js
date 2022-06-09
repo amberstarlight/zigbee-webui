@@ -1,14 +1,5 @@
 import styled from 'styled-components';
-
-const SliderContainer = styled.div`
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  justify-items: center;
-
-  grid-template-columns: 1fr 8fr 1fr;
-  column-gap: 1em;
-`;
+import { SettingsGrid } from '../GlobalStyles/globalStyles';
 
 const StyledSlider = styled.input.attrs((props) => ({
   type: 'range',
@@ -38,7 +29,7 @@ const StyledSlider = styled.input.attrs((props) => ({
 
 function Slider(props) {
   return (
-    <SliderContainer>
+    <SettingsGrid type={'device'}>
       {props.label}
       <StyledSlider
         min={props.min}
@@ -51,7 +42,7 @@ function Slider(props) {
         {props.displayValue || props.value}
         {props.displayUnit}
       </output>
-    </SliderContainer>
+    </SettingsGrid>
   );
 }
 

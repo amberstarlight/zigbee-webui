@@ -1,5 +1,5 @@
 import '../../font.css';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
  html,
@@ -42,3 +42,22 @@ export const darkTheme = {
   shadow: 'rgba(0, 0, 0, 0.5)',
   hover: 'rgba(255, 255, 255, 0.05)',
 };
+
+export const SettingsGrid = styled.div`
+  display: inline-grid;
+  align-items: center;
+  grid-template-columns: ${(props) => {
+    if (props.type === 'device') {
+      return '1fr 8fr 1fr;';
+    } else if (props.type === 'presets') {
+      return 'repeat(6, 1fr);';
+    }
+  }}
+
+  column-gap: 1em;
+  width: 100%;
+
+  @media only screen and (max-width: 700px) {
+    grid-template-columns: 8em 8em 1fr;
+  }
+`;
