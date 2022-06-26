@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import { sendMqttMessage } from '../../services/mqttService';
 
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
