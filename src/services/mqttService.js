@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import mqtt from 'mqtt';
+import mqtt from 'mqtt/dist/mqtt';
 let client;
 
 let oneTimeTopicCallbacks = {};
